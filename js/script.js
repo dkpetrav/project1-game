@@ -102,7 +102,7 @@ class Paddle {
 
 }
 
- 
+
 
 
 function checkGameOver(){
@@ -181,3 +181,5 @@ const ball = new Ball(40, 40, 15,'blue');
 console.log("after new Ball");
 console.log(ball);
 myGameArea.start();
+
+console.log("after our second commit")
