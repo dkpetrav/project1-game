@@ -7,12 +7,11 @@ class Ball {
     this.radiusball = radiusball;
     //this.colorball = #0000ff;
     this.colorball = colorball;
-        
-    /*
-    this.xball = xball;
-    this.yball = yball;
-    this.radius = radius;
-    this.color = color; */
+    this.xdirection = -1;
+    this.ydirection = Math.floor(Math.random() * 3) - 1;
+    this.xvelocity = 2;
+    this.yvelocity = 2;
+    console.log('xv, yv', this.xvelocity, this.yvelocity);
   }
 
   draw() {
@@ -25,7 +24,8 @@ class Ball {
   }
 
   move() {
-    this.xball += 1;
+    this.xball = this.xball + (this.xvelocity * this.xdirection);
+    this.yball = this.yball + (this.yvelocity * this.ydirection);
   }
 };
 
@@ -176,10 +176,10 @@ function updateGameArea(){
  ball.move();
 }
   
-const player = new Paddle(5, 30,'red', 550, 110);
-const ball = new Ball(40, 40, 15,'blue');
+const player = new Paddle(5, 30,'red', 550, 10);
+const ball = new Ball(580, 120, 15,'blue');
 console.log("after new Ball");
 console.log(ball);
+
 myGameArea.start();
 
-console.log("after our second commit")
