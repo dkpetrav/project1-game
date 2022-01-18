@@ -9,7 +9,7 @@ class Ball {
     this.colorball = colorball;
     this.xdirection = -1;
     this.ydirection = Math.floor(Math.random() * 3) - 1;
-    this.xvelocity = 2;
+    this.xvelocity = 3;
     this.yvelocity = 2;
     console.log('xv, yv', this.xvelocity, this.yvelocity);
   }
@@ -26,6 +26,27 @@ class Ball {
   move() {
     this.xball = this.xball + (this.xvelocity * this.xdirection);
     this.yball = this.yball + (this.yvelocity * this.ydirection);
+  }
+
+  checkBoundary() {
+    if ((this.yball + this.radiusball) >= myGameArea.canvas.height) {
+      this.ydirection *= -1;
+    }
+    if ((this.yball - this.radiusball) <= 0) {
+      this.ydirection *= -1;
+    }
+    if ((this.xball - this.radiusball) <= 0) {
+      this.xdirection *= -1;
+    }
+    if ((this.xball + this.radiusball) <= player.x && ((this.yball + this.radius) >= player.top() && (this.yball - this.radius) <= player.bottom() )) {
+      this.xdirection *= -1;
+    }
+  }
+
+  checkGameOver() {
+    if (this.xball >= myGameArea.canvas.width) {
+      console.log('Game Over');
+    }
   }
 };
 
@@ -141,6 +162,8 @@ document.addEventListener('keyup', (e) => {
   player.speedY = 0;
 });
 
+
+
 function updateObstacles() {
   for (i = 0; i < myObstacles.length; i++) {
     myObstacles[i].x += -1;
@@ -172,14 +195,17 @@ function updateGameArea(){
 //    updateObstacles();
 //    checkGameOver();
   myGameArea.score();
- ball.draw();
- ball.move();
+  ball.draw();
+  ball.move();
+  ball.checkBoundary();
+  ball.checkGameOver();
 }
   
 const player = new Paddle(5, 30,'red', 550, 10);
 const ball = new Ball(580, 120, 15,'blue');
 console.log("after new Ball");
-console.log(ball);
+console.log(Ball);
 
-myGameArea.start();
+//myGameArea.start();
+document.getElementById("newGame").onclick = myGameArea.start();
 
