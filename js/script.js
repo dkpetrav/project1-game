@@ -1,4 +1,46 @@
 // const ball = new Ball(580, 50, 15,'blue');
+class Paddle {
+  constructor(width, height, color, x, y) {
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.x = x;
+    this.y = y;
+    this.speedX = 0;
+    this.speedY = 0;
+  }
+
+  newPos() {
+    this.y += this.speedY;
+  }
+  
+  update() {
+    const ctx = myGameArea.context;
+    console.log("inside update of Component");
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+
+  left() {
+    return this.x;
+  }
+  right() {
+    return this.x + this.width;
+  }
+  top() {
+    return this.y;
+  }
+  bottom() {
+    return this.y + this.height;
+  }
+     
+  crashWith(obstacle) {
+    return !(this.bottom() < obstacle.top() || this.top() > obstacle.bottom() || this.right() < obstacle.left() || this.left() > obstacle.right());
+  }
+
+}
+
+const player = new Paddle(5, 30,'red', 550, 10);
 
 class Ball {
   constructor(xball, yball, radiusball, colorball) {
@@ -24,28 +66,31 @@ class Ball {
   }
 
   move() {
+    console.log("before move", this.xball);
     this.xball = this.xball + (this.xvelocity * this.xdirection);
     this.yball = this.yball + (this.yvelocity * this.ydirection);
+    console.log("after move", this.xball);
   }
 
   checkBoundary() {
-    if ((this.yball + this.radiusball) >= myGameArea.canvas.height) {
+
+    if ((this.yball + this.radiusball) >= myGameArea.canvas.height) {    // bottom boundary
       this.ydirection *= -1;
     }
-    if ((this.yball - this.radiusball) <= 0) {
+    if ((this.yball - this.radiusball) <= 0) {                           // left boundary
       this.ydirection *= -1;
     }
-    if ((this.xball - this.radiusball) <= 0) {
+    if ((this.xball - this.radiusball) <= 0) {                           // upper boundary
       this.xdirection *= -1;
     }
-    if ((this.xball + this.radiusball) <= player.x && ((this.yball + this.radius) >= player.top() && (this.yball - this.radius) <= player.bottom() )) {
-      this.xdirection *= -1;
+    if (((this.xball + this.radiusball) > player.x) && ((this.yball + this.radiusball) >= player.y && ((this.yball - this.radiusball) <= (player.y + player.height)))) {
+      this.xdirection *= -1;                                             // the paddle
     }
   }
 
   checkGameOver() {
-    if (this.xball >= myGameArea.canvas.width) {
-      console.log('Game Over');
+    if ((this.xball - this.radiusball) > (myGameArea.canvas.width + 5)) {  //don't leave a piece of the ball on the border
+      myGameArea.stop();                                                 // passing right boundary
     }
   }
 };
@@ -79,7 +124,7 @@ const myGameArea = {
     }
 };
 
-
+console.log("myGameArea.start", myGameArea.start)
 
 class Paddle {
   constructor(width, height, color, x, y) {
@@ -123,7 +168,7 @@ class Paddle {
 
 }
 
-
+*/
 
 
 function checkGameOver(){
@@ -146,22 +191,14 @@ document.addEventListener('keydown', (e) => {
     case 40: // down arrow
       player.speedY += 1;
       break;
-      //case 37: // left arrow
-      //  player.speedX -= 1;
-      //  break;
-      //case 39: // right arrow
-      //  player.speedX += 1;
-      //  break;
     }
 });
 
-  
 
 document.addEventListener('keyup', (e) => {
    // player.speedX = 0;
   player.speedY = 0;
 });
-
 
 
 function updateObstacles() {
@@ -192,8 +229,6 @@ function updateGameArea(){
   myGameArea.clear();
   player.newPos();
   player.update();
-//    updateObstacles();
-//    checkGameOver();
   myGameArea.score();
   ball.draw();
   ball.move();
@@ -201,11 +236,12 @@ function updateGameArea(){
   ball.checkGameOver();
 }
   
-const player = new Paddle(5, 30,'red', 550, 10);
+//const player = new Paddle(5, 30,'red', 550, 10);
 const ball = new Ball(580, 120, 15,'blue');
 console.log("after new Ball");
 console.log(Ball);
 
-//myGameArea.start();
+// let newGame = myGameArea.start();
 document.getElementById("newGame").onclick = myGameArea.start();
+//document.getElementById("newGame").onclick = myGameArea.start();
 
