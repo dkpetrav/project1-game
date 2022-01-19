@@ -90,7 +90,7 @@ class Ball {
 
   checkGameOver() {
     if ((this.xball - this.radiusball) > (myGameArea.canvas.width + 5)) {  //don't leave a piece of the ball on the border
-      myGameArea.stop();                                                 // passing right boundary
+      myGameArea.stop();                                                 // passing right
     }
   }
 };
@@ -125,6 +125,8 @@ const myGameArea = {
 };
 
 console.log("myGameArea.start", myGameArea.start)
+
+/*
 
 class Paddle {
   constructor(width, height, color, x, y) {
