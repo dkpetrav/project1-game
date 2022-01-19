@@ -1,4 +1,4 @@
-
+//                     
 let player;
 let ball;
 
@@ -32,6 +32,7 @@ class Paddle {
       return false
     }
   }
+
   checkNotPaddleLowerCanvas() {
   //  console.log(this.y, this.height, myGameArea.canvas.height);
     if (this.y + this.height < myGameArea.canvas.height) {
@@ -40,8 +41,6 @@ class Paddle {
       return false
     }
   }
-
-
 
   left() {
     return this.x;
@@ -142,42 +141,6 @@ const myGameArea = {
   }
 }
 
-
-/*
-const myGameArea = {
-    canvas: document.createElement('canvas'),
-    frames: 0,
-    start: function(){
-        this.canvas.width = 600;
-        this.canvas.height = 300;
-        this.context = this.canvas.getContext('2d');
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
-        
-        console.log("inside.start");
-
-    },
-    clear: function(){
-        this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
-    },
-
-    stop: function(){
-        clearInterval(this.interval);
-    },
-
-    score: function () {
-        const points = Math.floor(this.frames / 5);
-        this.context.font = '18px serif';
-        this.context.fillStyle = 'black';
-        this.context.fillText(`Score: ${points}`, 350, 50);
-    }
-};
-
-// console.log("myGameArea.start", myGameArea.start)
-
-*/
-
-
 function checkGameOver(){
   const crashed = myObstacles.some(function(obstacle){
     return player.crashWith(obstacle);
@@ -188,7 +151,6 @@ function checkGameOver(){
     myGameArea.stop();
   }    
 }
-
 
 document.addEventListener('keydown', (e) => {
   if (e.keyCode == 38) {
@@ -206,45 +168,11 @@ document.addEventListener('keydown', (e) => {
     }
   }
 
-/*  switch (e.keyCode) {
-    case (38 && player.checkNotPaddleUpperCanvas()): // up arrow
-      player.speedY -= 1;
-      break;
-    case (40 && player.checkNotPaddleLowerCanvas()): // down arrow
-      player.speedY += 1;
-      break;
-  }*/
 });
-
 
 document.addEventListener('keyup', (e) => {
   player.speedY = 0;
 });
-
-/*
-function updateObstacles() {
-  for (i = 0; i < myObstacles.length; i++) {
-    myObstacles[i].x += -1;
-    myObstacles[i].update();
-  }
-        
-         
-  myGameArea.frames += 1;
-    if (myGameArea.frames % 120 === 0) {
-      let x = myGameArea.canvas.width;
-      let minHeight = 20;
-      let maxHeight = 200;
-      let height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
-      let minGap = 50;
-      let maxGap = 200;
-      let gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-      myObstacles.push(new Component(10, height, 'green', x, 0));
-      myObstacles.push(new Component(10, x - height - gap, 'green', x, height + gap));
-    }
-}*/
-  
-  
-
 
 function updateGameArea(){
   myGameArea.clear();
@@ -256,18 +184,16 @@ function updateGameArea(){
   ball.checkBoundary();
   ball.checkGameOver();
   myGameArea.score();
-  console.log("upper", player.checkNotPaddleUpperCanvas());
-  console.log("lower", player.checkNotPaddleLowerCanvas());
-  console.log("speedY", player.speedY);
+//  console.log("upper", player.checkNotPaddleUpperCanvas());
+//  console.log("lower", player.checkNotPaddleLowerCanvas());
+//  console.log("speedY", player.speedY);
 }
 
-myGameArea.draw()
-//player = new Paddle(5, 30,'red', 580, 10);
-//ball = new Ball(580, 120, 15,'blue');
-console.log("after new Ball");
-console.log(Ball);
- ; 
-// let newGame = myGameArea.start();
-//document.getElementById("newGame").onclick = myGameArea.start();
+myGameArea.draw();
+
+//console.log("after new Ball");
+//console.log(Ball);
+
+
 
 
