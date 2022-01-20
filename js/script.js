@@ -133,7 +133,6 @@ const myGameArea = {
     this.canvas.width = 600;
     this.canvas.height = 300;
     this.context = this.canvas.getContext('2d');
-  //this.context.fillStyle = #000;
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
   },
 
@@ -141,8 +140,8 @@ const myGameArea = {
     points = 0;
     this.yarbitrary = 20 + Math.floor(Math.random() * (this.canvas.height - 40));
     this.draw();
-    player = new Paddle(5, 30,'red', 580, 10);
-    ball = new Ball(this.canvas.width, this.yarbitrary, 15,'blue');
+    player = new Paddle(5, 30,'white', 580, 10);
+    ball = new Ball(this.canvas.width, this.yarbitrary, 15,'white');
     this.interval = setInterval(updateGameArea, 20);
   },
 
@@ -156,7 +155,7 @@ const myGameArea = {
 
   score: function () {
     this.context.font = '18px serif';
-    this.context.fillStyle = 'black';
+    this.context.fillStyle = 'white';
     this.context.fillText(`Score: ${points}`, 350, 50);
   }
 }

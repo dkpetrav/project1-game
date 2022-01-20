@@ -1,3 +1,15 @@
 canvas {
+
+    background-color: black;
     border: 5px solid green;
+}
+
+body * {
+    font-family: 'Press Start 2P', cursive;
+}
+
+#newGame {
+    color: white;
+    background-color: black;
+    padding: 10px;
 }
