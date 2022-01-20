@@ -154,7 +154,7 @@ const myGameArea = {
   },
 
   score: function () {
-    this.context.font = '18px serif';
+    this.context.font = '20px serif';
     this.context.fillStyle = 'white';
     this.context.fillText(`Score: ${points}`, 350, 50);
   }
