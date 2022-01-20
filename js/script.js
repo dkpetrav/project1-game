@@ -1,6 +1,11 @@
-//                     
+//   
+
 let player;
 let ball;
+let points;
+let beep = new Audio("./audio/ping_pong_8bit_beeep.ogg");
+let plop = new Audio("./audio/ping_pong_8bit_plop.ogg");
+let lose = new Audio("./audio/ping_pong_8bit_peeeeeep.ogg");
 
 class Paddle {
   constructor(width, height, color, x, y) {
@@ -64,7 +69,10 @@ class Ball {
     this.radiusball = radiusball;
     this.colorball = colorball;
     this.xdirection = -1;
-    this.ydirection = Math.floor(Math.random() * 3) - 1;
+    this.ydirection = Math.floor(Math.random() * 2);
+    if (this.ydirection === 0) {
+      this.ydirection = -1;
+    }
     this.xvelocity = 3;
     this.yvelocity = 2;
   }
@@ -86,20 +94,31 @@ class Ball {
   checkBoundary() {
     if ((this.yball + this.radiusball) >= myGameArea.canvas.height) {    // bottom boundary
       this.ydirection *= -1;
+      beep.play();
+    //  points += 1;
     }
     if ((this.yball - this.radiusball) <= 0) {                           // left boundary
       this.ydirection *= -1;
+      beep.play();
+    //  points += 1;
     }
+
     if ((this.xball - this.radiusball) <= 0) {                           // upper boundary
       this.xdirection *= -1;
+      beep.play();
+    //  points += 1;
     }
+    
     if (((this.xball + this.radiusball) > player.x) && ((this.yball + this.radiusball) >= player.y && ((this.yball - this.radiusball) <= (player.y + player.height)))) {
-      this.xdirection *= -1;                                             // the paddle
+      this.xdirection *= -1;
+      points += 1;
+      plop.play();                                                           // the paddle
     }
   }
 
   checkGameOver() {
     if ((this.xball - this.radiusball) > (myGameArea.canvas.width + 5)) {  //don't leave a piece of the ball on the border
+      lose.play();
       myGameArea.stop();                                                   // passing right
     }
   }
@@ -114,15 +133,17 @@ const myGameArea = {
     this.canvas.width = 600;
     this.canvas.height = 300;
     this.context = this.canvas.getContext('2d');
+  //this.context.fillStyle = #000;
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
   },
 
   start: function(){
-    this.draw()
+    points = 0;
+    this.yarbitrary = 20 + Math.floor(Math.random() * (this.canvas.height - 40));
+    this.draw();
     player = new Paddle(5, 30,'red', 580, 10);
-    ball = new Ball(580, 120, 15,'blue');
+    ball = new Ball(this.canvas.width, this.yarbitrary, 15,'blue');
     this.interval = setInterval(updateGameArea, 20);
-    console.log("inside.start");
   },
 
   clear: function(){
@@ -134,10 +155,9 @@ const myGameArea = {
   },
 
   score: function () {
-      const points = Math.floor(this.frames / 5);
-      this.context.font = '18px serif';
-      this.context.fillStyle = 'black';
-      this.context.fillText(`Score: ${points}`, 350, 50);
+    this.context.font = '18px serif';
+    this.context.fillStyle = 'black';
+    this.context.fillText(`Score: ${points}`, 350, 50);
   }
 }
 
