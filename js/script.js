@@ -1,4 +1,4 @@
-//   
+//   Single Player Squash
 
 let player;
 let ball;
@@ -24,13 +24,11 @@ class Paddle {
   
   update() {
     const ctx = myGameArea.context;
-  //  console.log("inside update of Component");
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
   checkNotPaddleUpperCanvas() {
-  //  console.log(this.y, this.height, myGameArea.canvas.height);
     if (this.y > 0) {
       return true
     } else {
@@ -39,25 +37,11 @@ class Paddle {
   }
 
   checkNotPaddleLowerCanvas() {
-  //  console.log(this.y, this.height, myGameArea.canvas.height);
     if (this.y + this.height < myGameArea.canvas.height) {
       return true
     } else {
       return false
     }
-  }
-
-  left() {
-    return this.x;
-  }
-  right() {
-    return this.x + this.width;
-  }
-  top() {
-    return this.y;
-  }
-  bottom() {
-    return this.y + this.height;
   }
 
 }
@@ -69,8 +53,8 @@ class Ball {
     this.radiusball = radiusball;
     this.colorball = colorball;
     this.xdirection = -1;
-    this.ydirection = Math.floor(Math.random() * 2);
-    if (this.ydirection === 0) {
+    this.ydirection = Math.floor(Math.random() * 2);       //ball random up- or downwards
+    if (this.ydirection === 0) {                           //no horisontal direction 
       this.ydirection = -1;
     }
     this.xvelocity = 3;
@@ -95,35 +79,31 @@ class Ball {
     if ((this.yball + this.radiusball) >= myGameArea.canvas.height) {    // bottom boundary
       this.ydirection *= -1;
       beep.play();
-    //  points += 1;
     }
     if ((this.yball - this.radiusball) <= 0) {                           // left boundary
       this.ydirection *= -1;
       beep.play();
-    //  points += 1;
     }
 
     if ((this.xball - this.radiusball) <= 0) {                           // upper boundary
       this.xdirection *= -1;
       beep.play();
-    //  points += 1;
     }
     
     if (((this.xball + this.radiusball) > player.x) && ((this.yball + this.radiusball) >= player.y && ((this.yball - this.radiusball) <= (player.y + player.height)))) {
       this.xdirection *= -1;
       points += 1;
-      plop.play();                                                           // the paddle
+      plop.play();                                                       // the paddle
     }
   }
 
   checkGameOver() {
-    if ((this.xball - this.radiusball) > (myGameArea.canvas.width + 5)) {  //don't leave a piece of the ball on the border
+    if ((this.xball - this.radiusball) > (myGameArea.canvas.width + 5)) {  //don't leave a piece of the ball on the boundary
       lose.play();
-      myGameArea.stop();                                                   // passing right
+      myGameArea.stop();                                                 // passing right boundary
     }
   }
 };
-
 
 const myGameArea = {
   canvas: document.createElement('canvas'),
@@ -138,7 +118,7 @@ const myGameArea = {
 
   start: function(){
     points = 0;
-    this.yarbitrary = 20 + Math.floor(Math.random() * (this.canvas.height - 40));
+    this.yarbitrary = 20 + Math.floor(Math.random() * (this.canvas.height - 40));  // set arbitrary hight for ball to enter canvas
     this.draw();
     player = new Paddle(5, 30,'white', 580, 10);
     ball = new Ball(this.canvas.width, this.yarbitrary, 15,'white');
@@ -158,17 +138,6 @@ const myGameArea = {
     this.context.fillStyle = 'white';
     this.context.fillText(`Score: ${points}`, 350, 50);
   }
-}
-
-function checkGameOver(){
-  const crashed = myObstacles.some(function(obstacle){
-    return player.crashWith(obstacle);
-  });
-  
-
-  if (crashed){
-    myGameArea.stop();
-  }    
 }
 
 document.addEventListener('keydown', (e) => {
@@ -197,22 +166,11 @@ function updateGameArea(){
   myGameArea.clear();
   player.newPos();
   player.update();
-
   ball.draw();
   ball.move();
   ball.checkBoundary();
   ball.checkGameOver();
   myGameArea.score();
-//  console.log("upper", player.checkNotPaddleUpperCanvas());
-//  console.log("lower", player.checkNotPaddleLowerCanvas());
-//  console.log("speedY", player.speedY);
 }
 
 myGameArea.draw();
-
-//console.log("after new Ball");
-//console.log(Ball);
-
-
-
-

@@ -1,4 +1,4 @@
-# Squash game - single player
+# Single Player Squash game
 
 
 
@@ -35,11 +35,11 @@ Peter Ravnsbæk aka Peter Ravnsbaek :+1:
 
 - Improve design
 
-  - More squash like colors
-
   - Nicer point display
 
   - High score list
+
+  - Paddle at 'high speed' almost leave the canvas
 
 
 - Improve features
